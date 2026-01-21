@@ -157,3 +157,35 @@ if ('loading' in HTMLImageElement.prototype) {
 // Console Easter Egg
 console.log('%c👋 Hello! Welcome to Ahmed Tokyo\'s Portfolio', 'font-size: 20px; font-weight: bold; color: #0070f3;');
 console.log('%cInterested in collaboration? Let\'s connect!', 'font-size: 14px; color: #666;');
+
+// Force resume download (some browsers ignore download for PDFs)
+const downloadResume = document.getElementById('downloadResume');
+if (downloadResume) {
+    downloadResume.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const resumeUrl = downloadResume.getAttribute('href');
+        if (!resumeUrl) {
+            return;
+        }
+
+        try {
+            const response = await fetch(resumeUrl);
+            if (!response.ok) {
+                window.location.href = resumeUrl;
+                return;
+            }
+
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const tempLink = document.createElement('a');
+            tempLink.href = blobUrl;
+            tempLink.download = 'Mahdiar_Khodabakhshi_Resume.pdf';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            tempLink.remove();
+            URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            window.location.href = resumeUrl;
+        }
+    });
+}
