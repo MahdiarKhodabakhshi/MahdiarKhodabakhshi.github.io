@@ -44,15 +44,22 @@ function activateNavLink() {
     let current = '';
     const scrollY = window.pageYOffset;
     const navHeight = document.querySelector('.navbar').offsetHeight;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
 
     sections.forEach(section => {
         const sectionTop = section.offsetTop - navHeight - 100;
-        const sectionHeight = section.offsetHeight;
-        
-        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+
+        if (scrollY >= sectionTop) {
             current = section.getAttribute('id');
         }
     });
+
+    if (scrollY >= maxScroll - 5) {
+        const lastSection = sections[sections.length - 1];
+        if (lastSection) {
+            current = lastSection.getAttribute('id');
+        }
+    }
 
     navLinks.forEach(link => {
         link.classList.remove('active');
