@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mahdiarkhodabakhshi.github.io/sitemap.xml
